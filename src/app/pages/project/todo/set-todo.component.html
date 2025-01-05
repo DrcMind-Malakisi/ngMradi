@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>
+  {{ todo?.id ? "Modifier cette tâche" : "Nouvelle tâche" }}
+</h2>
+<mat-divider />
+<mat-dialog-content>
+  <form [formGroup]="todoForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Tâche</mat-label>
+      <input
+        matInput
+        #titleInput
+        maxlength="50"
+        placeholder="Ex. Page d'Accueil optimisé..."
+        formControlName="title"
+      />
+      <mat-hint align="end">{{ titleInput.value.length }}/50</mat-hint>
+
+      @if (todoForm.controls.title.hasError('required')) {
+      <mat-error>le titre est obligatoire</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Déscription</mat-label>
+      <textarea
+        matInput
+        cols="30"
+        rows="5"
+        maxlength="300"
+        #descriptionInput
+        placeholder="Descrivez cette tâche..."
+        formControlName="description"
+      ></textarea>
+      <mat-hint align="end">{{ descriptionInput.value.length }}/300</mat-hint>
+      @if (todoForm.controls.description.hasError('required')) {
+      <mat-error>la description est obligatoire</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Priorité</mat-label>
+      <mat-select formControlName="priority">
+        <mat-option value="low">Faible</mat-option>
+        <mat-option value="medium">Moyen</mat-option>
+        <mat-option value="high">Élevé</mat-option>
+      </mat-select>
+      @if (todoForm.controls.priority.hasError('required')) {
+      <mat-error>la priorité est obligatoire</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-divider />
+<mat-dialog-actions align="end">
+  @let user = user$ | async;
+  <button mat-button mat-dialog-close>Annuler</button>
+  <button mat-flat-button (click)="onSubmit(user)">Enregistrer</button>
+</mat-dialog-actions>

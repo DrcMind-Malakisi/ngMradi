@@ -1,0 +1,86 @@
+<mat-card
+  appearance="outlined"
+  style="max-width: max-content; margin: 2rem auto"
+>
+  <mat-card-header>
+    <mat-card-title align="center"
+      ><b>{{ appName }}</b></mat-card-title
+    >
+    <mat-card-subtitle
+      >Connectez-vous et gérer vos projets en un clic
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <br />
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    @if (loading()) {
+    <app-login-skelton />
+    } @else if (emailSent()) {
+    <span style="width: 500px; display: block; margin-top: 1rem">
+      Un mail a été envoyé {{ emailSent() }}
+      <button
+        mat-button
+        color="primary"
+        style="text-decoration: underline"
+        (click)="resetState()"
+      >
+        Email non reçu ?
+      </button>
+    </span>
+    } @else {
+    <main style="padding: 1rem 0">
+      <button mat-flat-button (click)="loginWithGoogle()" style="width: 100%">
+        Connectez avec Google
+      </button>
+
+      <div class="divider">
+        <mat-divider></mat-divider>
+        <span> ou avec </span>
+        <mat-divider></mat-divider>
+      </div>
+
+      <form
+        align="end"
+        #emailForm="ngForm"
+        (ngSubmit)="emailFormSubmit(emailForm)"
+      >
+        <mat-form-field appearance="outline" style="width: 100%">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            ngModel
+            #email="ngModel"
+            type="email"
+            id="email"
+            name="email"
+            required
+            email
+            placeholder="Ex: example@company.org"
+          />
+          @if (!email.errors?.['required'] && email.errors?.['email']) {
+          <mat-error> Email invalide </mat-error>
+          } @if (email.errors?.['required']) {
+          <mat-error> Email est requis </mat-error>
+          }
+        </mat-form-field>
+
+        <button
+          class="email-auth-btn"
+          mat-stroked-button
+          type="submit"
+          [disabled]="emailForm.invalid"
+        >
+          Continuer
+        </button>
+      </form>
+    </main>
+    }
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+  <mat-card-footer align="center" style="padding: 1rem 0">
+    {{ appName }}©{{ date.getFullYear() }}, propulsé
+    <a href="https://drcmind.com" target="_blank">{{ companyName }}</a>
+  </mat-card-footer>
+</mat-card>

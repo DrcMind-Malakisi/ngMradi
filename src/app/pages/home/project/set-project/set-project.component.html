@@ -1,0 +1,82 @@
+<h2 mat-dialog-title>
+  {{ project ? "Modifier ce projet" : "Nouveau projet" }}
+</h2>
+<mat-divider />
+<mat-dialog-content>
+  <form [formGroup]="projectForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Titre</mat-label>
+      <input
+        matInput
+        #titleInput
+        maxlength="50"
+        placeholder="Ex. Création d'un logiciel de gestion de projet"
+        formControlName="title"
+      />
+      <mat-hint align="end">{{ titleInput.value.length }}/50</mat-hint>
+
+      @if (projectForm.controls.title.hasError('required')) {
+      <mat-error>le titre est obligatoire</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Déscription</mat-label>
+      <textarea
+        matInput
+        cols="30"
+        rows="5"
+        maxlength="500"
+        #descriptionInput
+        placeholder="Descrivez ce projet..."
+        formControlName="description"
+      ></textarea>
+      <mat-hint align="end">{{ descriptionInput.value.length }}/500</mat-hint>
+      @if (projectForm.controls.description.hasError('required')) {
+      <mat-error>la description est obligatoire</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-divider />
+
+    <div formArrayName="contributors">
+      <h4>Contributeurs</h4>
+      @let contributorControls = projectForm.controls.contributors.controls;
+      @for (contributorControl of contributorControls; track $index) {
+      <div class="contributor-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            placeholder="Ex. contributor@email.com"
+            [formControlName]="$index"
+          />
+          @if (contributorControl.hasError('email')) {
+          <mat-error>Email invalid</mat-error>
+          }
+        </mat-form-field>
+
+        @if($index) {
+        <button mat-icon-button (click)="removeContributorControl($index)">
+          <mat-icon class="alert-action">delete</mat-icon>
+        </button>
+        }
+      </div>
+      } @if(contributorControls.length < 5) {
+      <div align="end">
+        <button mat-button (click)="addContributorControl()">
+          + Contributeur
+        </button>
+      </div>
+      }
+      <br />
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-divider />
+<mat-dialog-actions align="end">
+  @let user = user$ | async;
+  <button mat-button mat-dialog-close>Annuler</button>
+  <button mat-flat-button (click)="onSubmit(user)">Enregistrer</button>
+</mat-dialog-actions>

@@ -1,1 +1,118 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@include mat.core();
+
+html {
+  font-family: "Lato", serif;
+  font-weight: 500;
+  font-style: normal;
+
+  color-scheme: light;
+  @include mat.theme(
+    (
+      color: mat.$azure-palette,
+      typography: "Lato",
+      density: 0,
+    )
+  );
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+
+  //Custom scroll bar
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: initial;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--mat-sys-on-surface);
+    border-radius: 8px;
+  }
+}
+
+body.dark-theme {
+  color-scheme: dark;
+
+  .green-badge {
+    @include mat.badge-overrides(
+      (
+        background-color: lightgreen,
+      )
+    );
+  }
+}
+
+.alert-action {
+  color: var(--mat-sys-error);
+}
+
+.mat-divider {
+  border-top-color: var(--mat-sys-outline-variant) !important;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Skeleton elements */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--mat-sys-outline-variant) 25%,
+    var(--mat-sys-outline-variant) 50%,
+    var(--mat-sys-outline-variant) 75%
+  );
+  background-size: 200% 100%;
+  animation: pulse 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Pulse animation for skelton loading */
+@keyframes pulse {
+  0% {
+    background-position: 200% 0;
+    filter: brightness(1);
+  }
+  50% {
+    background-position: 0% 0;
+    filter: brightness(1.3); /* Intensify the brightness at the peak */
+  }
+  100% {
+    background-position: -200% 0;
+    filter: brightness(1);
+  }
+}
+
+.truncate {
+  width: 100%;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.green-badge {
+  @include mat.badge-overrides(
+    (
+      background-color: green,
+    )
+  );
+}
+
+.orange-badge {
+  @include mat.badge-overrides(
+    (
+      background-color: orange,
+    )
+  );
+}

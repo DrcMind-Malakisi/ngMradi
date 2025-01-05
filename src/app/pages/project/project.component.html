@@ -1,0 +1,142 @@
+<mat-toolbar>
+  <div class="left-container">
+    <button
+      mat-icon-button
+      matTooltip="Router à la page d'accueil"
+      routerLink="/"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <h2>
+      {{ project?.title }}
+    </h2>
+  </div>
+
+  <div class="right-container">
+    @let user = user$ | async; @if(user?.uid === project?.uid){
+    <button
+      mat-icon-button
+      matTooltip="Modifier ce projet"
+      (click)="onEditProject(project!)"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      matTooltip="Supprimer ce projet"
+      (click)="onDeleteProject(project?.id!)"
+      routerLink="/"
+    >
+      <mat-icon class="alert-action">delete</mat-icon>
+    </button>
+    }
+  </div>
+</mat-toolbar>
+
+<mat-divider />
+<main style="width: 1200px; margin: auto">
+  <p>{{ project?.description }}</p>
+
+  <p align="end">
+    Ajouté le {{ formatedDate(project?.createdAt) | date : "medium" }}
+    {{
+      project?.updatedAt
+        ? "- Modifié le " + (formatedDate(project?.updatedAt) | date : "medium")
+        : ""
+    }}
+  </p>
+
+  <mat-divider />
+  <br />
+
+  <div class="columns-container">
+    <!-- Subscribe to todo obsvervable array-->
+    @let todos = todos$ | async;
+    <!-- Subscribe to inProgresses obsvervable array-->
+    @let inProgresses = inProgresses$ | async;
+    <!-- Subscribe to dones obsvervable array-->
+    @let dones = dones$ | async;
+
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+          ><span>Cachier des charges</span>
+          <button mat-flat-button (click)="onNewTodo(project?.id!)">
+            Nouvelle tâche
+          </button></mat-card-title
+        >
+        <mat-card-subtitle
+          >Décrivez les tâches selon le vue d'utilisateur/client/bénéficiaire :
+          qui fait quoi et pourquoi</mat-card-subtitle
+        >
+      </mat-card-header>
+      <br />
+      <mat-divider />
+      <mat-card-content
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="todos"
+        [cdkDropListConnectedTo]="[inProgressList]"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (todo of todos; track todo.id) {
+        <div class="todo-container" cdkDrag>
+          <app-todo [task]="todo" />
+        </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>En cours</mat-card-title>
+        <mat-card-subtitle
+          >La liste des tâches en cours d'execution</mat-card-subtitle
+        >
+      </mat-card-header>
+      <br />
+      <mat-divider />
+      <mat-card-content
+        cdkDropList
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgresses"
+        [cdkDropListConnectedTo]="[todoList, doneList]"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (todo of inProgresses; track todo.id) {
+        <div class="todo-container" cdkDrag>
+          <app-todo [task]="todo" />
+        </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Terminées</mat-card-title>
+        <mat-card-subtitle>La liste des tâches terminées</mat-card-subtitle>
+      </mat-card-header>
+      <br />
+      <mat-divider />
+      <mat-card-content
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListData]="dones"
+        [cdkDropListConnectedTo]="[inProgressList, todoList]"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (todo of dones; track todo.id) {
+        <div class="todo-container" cdkDrag>
+          <app-todo [task]="todo" />
+        </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+</main>
