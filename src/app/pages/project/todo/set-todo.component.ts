@@ -65,13 +65,13 @@ export class SetTodoComponent {
       ? this.todo.id
       : this.fs.createDocId(todoCollection);
 
-    const todoData: Task<FieldValue | null> = {
+    const todoData: Task<FieldValue> = {
       id: todoId,
       uid: user?.uid!,
       projectId: this.todo?.projectId!,
       status: 'backlog',
       createdAt: this.todo?.id ? this.todo.createdAt : serverTimestamp(),
-      updatedAt: this.todo?.id ? serverTimestamp() : null,
+      updatedAt: serverTimestamp(),
       ...this.todoForm.getRawValue(),
     };
 

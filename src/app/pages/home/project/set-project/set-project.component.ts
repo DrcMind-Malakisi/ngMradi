@@ -92,11 +92,11 @@ export class SetProjectComponent implements OnInit {
       ? this.project.id
       : this.fs.createDocId(projectCollection);
 
-    const projectData: Project<FieldValue | null> = {
+    const projectData: Project<FieldValue> = {
       id: projectId,
       uid: user?.uid!,
       createdAt: this.project ? this.project.createdAt : serverTimestamp(),
-      updatedAt: this.project ? serverTimestamp() : null,
+      updatedAt: serverTimestamp(),
       ...this.projectForm.getRawValue(),
     };
 

@@ -32,13 +32,13 @@ export class FirestoreService {
   //Generate id for document (works even offline)
   createDocId = (colName: string) => doc(collection(this.fs, colName)).id;
 
-  setProject(p: Project<FieldValue | null>) {
+  setProject(p: Project<FieldValue>) {
     const projectColRef = collection(this.fs, this.projectCol);
     const projectDocRef = doc(projectColRef, p.id);
     return setDoc(projectDocRef, p, { merge: true });
   }
 
-  setTask(projectId: string, t: Task<FieldValue | null>) {
+  setTask(projectId: string, t: Task<FieldValue>) {
     const todoColRef = collection(this.fs, this.todoCol(projectId));
     const todoDocRef = doc(todoColRef, t.id);
     return setDoc(todoDocRef, t, { merge: true });
