@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Création d'un logiciel de gestion de projet avec Angular
 
 Ce projet est un cours pratique pour apprendre à développer un logiciel de gestion de projet en utilisant Angular et son écosystème. Vous apprendrez à créer une application moderne et scalable grâce à Angular Material (Material 3) et Firebase (AngularFire).
