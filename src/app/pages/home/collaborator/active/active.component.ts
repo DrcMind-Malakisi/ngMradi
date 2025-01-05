@@ -77,7 +77,9 @@ import { AsyncPipe } from '@angular/common';
 
           <!-- Contributors Column -->
           <ng-container matColumnDef="contributors">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Contributeurs
+            </th>
             <td mat-cell *matCellDef="let project">
               {{ project.contributors?.length ?? 0 }}
             </td>
