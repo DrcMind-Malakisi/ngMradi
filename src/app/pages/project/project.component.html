@@ -51,13 +51,6 @@
   <br />
 
   <div class="columns-container">
-    <!-- Subscribe to todo obsvervable array-->
-    @let todos = todos$ | async;
-    <!-- Subscribe to inProgresses obsvervable array-->
-    @let inProgresses = inProgresses$ | async;
-    <!-- Subscribe to dones obsvervable array-->
-    @let dones = dones$ | async;
-
     <mat-card appearance="outlined">
       <mat-card-header>
         <mat-card-title
@@ -81,11 +74,11 @@
       <mat-card-content
         cdkDropList
         #todoList="cdkDropList"
-        [cdkDropListData]="todos"
+        [cdkDropListData]="todos$ | async"
         [cdkDropListConnectedTo]="[inProgressList]"
-        (cdkDropListDropped)="drop($event)"
+        (cdkDropListDropped)="drop($event, 'backlog')"
       >
-        @for (todo of todos; track todo.id) {
+        @for (todo of todos$ | async; track todo.id) {
         <div class="todo-container" cdkDrag>
           <app-todo [task]="todo" />
         </div>
@@ -105,11 +98,11 @@
       <mat-card-content
         cdkDropList
         #inProgressList="cdkDropList"
-        [cdkDropListData]="inProgresses"
+        [cdkDropListData]="inProgresses$ | async"
         [cdkDropListConnectedTo]="[todoList, doneList]"
-        (cdkDropListDropped)="drop($event)"
+        (cdkDropListDropped)="drop($event, 'in-progress')"
       >
-        @for (todo of inProgresses; track todo.id) {
+        @for (todo of inProgresses$ | async; track todo.id) {
         <div class="todo-container" cdkDrag>
           <app-todo [task]="todo" />
         </div>
@@ -127,11 +120,11 @@
       <mat-card-content
         cdkDropList
         #doneList="cdkDropList"
-        [cdkDropListData]="dones"
+        [cdkDropListData]="dones$ | async"
         [cdkDropListConnectedTo]="[inProgressList, todoList]"
-        (cdkDropListDropped)="drop($event)"
+        (cdkDropListDropped)="drop($event, 'done')"
       >
-        @for (todo of dones; track todo.id) {
+        @for (todo of dones$ | async; track todo.id) {
         <div class="todo-container" cdkDrag>
           <app-todo [task]="todo" />
         </div>

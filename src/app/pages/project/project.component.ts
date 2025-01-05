@@ -84,7 +84,7 @@ export default class ProjectComponent implements OnInit, OnDestroy {
       .getDocData(this.fs.projectCol, this.id())
       .subscribe((project) => {
         this.project = project as Project<Timestamp>;
-        this.title.setTitle(`${this.project.title} ngMradi`);
+        this.title.setTitle(`${this.project.title} - ngMradi`);
       });
   }
 
@@ -110,7 +110,10 @@ export default class ProjectComponent implements OnInit, OnDestroy {
     });
   }
 
-  drop(event: CdkDragDrop<Task<Timestamp>[] | null>) {
+  drop(
+    event: CdkDragDrop<Task<Timestamp>[] | null>,
+    status: 'backlog' | 'in-progress' | 'done'
+  ) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data!,
@@ -123,14 +126,7 @@ export default class ProjectComponent implements OnInit, OnDestroy {
       ] as Task<FieldValue>;
 
       task.updatedAt = serverTimestamp();
-
-      task.status =
-        event.container.id === 'cdk-drop-list-0'
-          ? 'backlog'
-          : event.container.id === 'cdk-drop-list-1'
-          ? 'in-progress'
-          : 'done';
-
+      task.status = status;
       this.fs.setTask(this.id(), task);
     }
   }

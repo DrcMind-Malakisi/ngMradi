@@ -15,19 +15,13 @@ import {
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import {
-  FirebaseApp,
-  getApp,
-  initializeApp,
-  provideFirebaseApp,
-} from '@angular/fire/app';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import {
   initializeFirestore,
   persistentLocalCache,
   persistentMultipleTabManager,
   provideFirestore,
-  getFirestore,
 } from '@angular/fire/firestore';
 import { provideServiceWorker } from '@angular/service-worker';
 
@@ -63,16 +57,23 @@ export const appConfig: ApplicationConfig = {
         messagingSenderId: '672557091359',
       })
     ),
-    provideAuth(() => getAuth(inject(FirebaseApp))),
-    provideFirestore(() => getFirestore(inject(FirebaseApp))),
+    provideAuth(() => getAuth()),
+    provideFirestore(() =>
+      initializeFirestore(getApp(), {
+        localCache: persistentLocalCache({
+          tabManager: persistentMultipleTabManager(),
+        }),
+      })
+    ),
     provideRouter(
       routes,
       withPreloading(PreloadAllModules),
       withViewTransitions(),
       withComponentInputBinding()
-    ), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          }),
+    ),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };
