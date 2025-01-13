@@ -114,13 +114,7 @@ export default class ProjectComponent implements OnInit, OnDestroy {
     event: CdkDragDrop<Task<Timestamp>[] | null>,
     status: 'backlog' | 'in-progress' | 'done'
   ) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data!,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
+    if (event.previousContainer !== event.container) {
       const task = event.previousContainer.data![
         event.previousIndex
       ] as Task<FieldValue>;

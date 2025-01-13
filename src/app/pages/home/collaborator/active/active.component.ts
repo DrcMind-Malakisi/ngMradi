@@ -94,7 +94,11 @@ import { AsyncPipe } from '@angular/common';
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns"
+            style="font-weight: bolder"
+          ></tr>
           <tr mat-row *matRowDef="let project; columns: displayedColumns"></tr>
 
           <!-- Row shown when there is no matching data. -->

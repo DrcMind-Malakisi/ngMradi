@@ -26,7 +26,6 @@ import { WindowObserverService } from '../../core/services/utilities/windows-obs
   template: `
     <mat-drawer-container autosize>
       <mat-drawer
-        #drawer
         [mode]="viewPoint() >= isMedium ? 'side' : 'over'"
         [opened]="viewPoint() >= isMedium || isToggleDrawer()"
         class="drawer-sidenav"
@@ -51,16 +50,12 @@ import { WindowObserverService } from '../../core/services/utilities/windows-obs
         </a>
       </mat-drawer>
 
-      <mat-drawer-content class="sidenav-content"
-        ><router-outlet
-      /></mat-drawer-content>
+      <mat-drawer-content><router-outlet /></mat-drawer-content>
     </mat-drawer-container>
   `,
   styles: `
     mat-drawer-container {
       height: calc(100vh - 65px);
-      display: flex;
-      flex-direction: column;
     }
     
     mat-drawer {

@@ -44,7 +44,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
       </p>
       <mat-divider />
       <p>
-        {{ formatedDate(task().createdAt) | date : 'fullDate' }}
+        {{ formatedDate(task().createdAt) | date : 'fullDate'
+        }}{{ task().updatedAt > task().createdAt ? ' | Modifié' : '' }}
       </p>
       @if (task().uid === (user$ | async)?.uid) {
       <div class="actions" align="end">

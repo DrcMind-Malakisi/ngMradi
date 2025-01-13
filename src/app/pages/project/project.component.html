@@ -41,7 +41,7 @@
   <p align="end">
     Ajouté le {{ formatedDate(project?.createdAt) | date : "medium" }}
     {{
-      project?.updatedAt
+      project?.updatedAt! > project?.createdAt!
         ? "- Modifié le " + (formatedDate(project?.updatedAt) | date : "medium")
         : ""
     }}

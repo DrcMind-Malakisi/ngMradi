@@ -10,6 +10,6 @@ import { ThemeService } from './core/services/utilities/theme.service';
 })
 export class AppComponent {
   constructor() {
-    inject(ThemeService).setupDeviceThemeListener();
+    inject(ThemeService).theme();
   }
 }
