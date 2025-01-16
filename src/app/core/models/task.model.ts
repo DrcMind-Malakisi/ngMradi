@@ -6,6 +6,7 @@ export interface Task<T> {
   description?: string;
   status: 'backlog' | 'in-progress' | 'done';
   priority: 'low' | 'medium' | 'high';
+  moved?: boolean;
   createdAt: T;
   updatedAt: T;
 }

@@ -119,7 +119,7 @@ export default class ProjectComponent implements OnInit, OnDestroy {
         event.previousIndex
       ] as Task<FieldValue>;
 
-      task.updatedAt = serverTimestamp();
+      task.moved = true;
       task.status = status;
       this.fs.setTask(this.id(), task);
     }
