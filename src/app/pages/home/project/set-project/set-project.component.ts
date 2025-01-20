@@ -100,6 +100,10 @@ export class SetProjectComponent implements OnInit {
       ...this.projectForm.getRawValue(),
     };
 
+    if (this.project) {
+      projectData.updatedAt = serverTimestamp();
+    }
+
     this.fs.setProject(projectData);
     const message = this.project
       ? 'Projet modifié avec succès'

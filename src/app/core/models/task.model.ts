@@ -8,5 +8,5 @@ export interface Task<T> {
   priority: 'low' | 'medium' | 'high';
   moved?: boolean;
   createdAt: T;
-  updatedAt: T;
+  updatedAt?: T;
 }

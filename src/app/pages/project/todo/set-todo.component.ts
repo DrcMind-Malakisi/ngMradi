@@ -71,9 +71,12 @@ export class SetTodoComponent {
       projectId: this.todo?.projectId!,
       status: this.todo?.id ? this.todo?.status : 'backlog',
       createdAt: this.todo?.id ? this.todo.createdAt : serverTimestamp(),
-      updatedAt: serverTimestamp(),
       ...this.todoForm.getRawValue(),
     };
+
+    if (this.todo?.id) {
+      todoData.updatedAt = serverTimestamp();
+    }
 
     this.fs.setTask(todoData.projectId, todoData);
     const message = this.todo?.id
