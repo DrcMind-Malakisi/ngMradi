@@ -103,7 +103,7 @@ import { AsyncPipe } from '@angular/common';
 
           <!-- Row shown when there is no matching data. -->
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4" align="center">
+            <td class="mat-cell" colspan="5" align="center">
               Aucune donnée à afficher
             </td>
           </tr>
