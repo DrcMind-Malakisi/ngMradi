@@ -125,7 +125,6 @@ import { AsyncPipe } from '@angular/common';
         border-top-color: var(--mat-sys-outline) !important;
       }
     }
-  
   `,
 })
 export default class ActiveComponent
